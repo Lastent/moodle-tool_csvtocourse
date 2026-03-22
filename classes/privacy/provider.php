@@ -24,8 +24,6 @@
 
 namespace tool_csvtocourse\privacy;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Privacy Subsystem implementation for tool_csvtocourse.
  *

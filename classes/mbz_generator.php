@@ -636,9 +636,7 @@ class mbz_generator {
         return $doc->saveXML();
     }
 
-    // ─────────────────────────────────────────────────────
-    // Module XML builder (common for all activity types)
-    // ─────────────────────────────────────────────────────
+    // Module XML builder (common for all activity types).
 
     /**
      * Build module.xml for an activity.
@@ -682,9 +680,7 @@ class mbz_generator {
         return $doc->saveXML();
     }
 
-    // ─────────────────────────────────────────────────────
-    // Auxiliary per-activity XML builders
-    // ─────────────────────────────────────────────────────
+    // Auxiliary per-activity XML builders.
 
     /**
      * Empty grades XML.
@@ -801,9 +797,7 @@ class mbz_generator {
         return $doc->saveXML();
     }
 
-    // ─────────────────────────────────────────────────────
-    // Course-level XML builders
-    // ─────────────────────────────────────────────────────
+    // Course-level XML builders.
 
     /**
      * Build course/course.xml.
@@ -972,9 +966,7 @@ class mbz_generator {
         return $doc->saveXML();
     }
 
-    // ─────────────────────────────────────────────────────
-    // Root-level XML builders
-    // ─────────────────────────────────────────────────────
+    // Root-level XML builders.
 
     /**
      * Build files.xml (empty – no embedded files).
@@ -1158,9 +1150,7 @@ class mbz_generator {
         return $doc->saveXML();
     }
 
-    // ─────────────────────────────────────────────────────
-    // moodle_backup.xml builder
-    // ─────────────────────────────────────────────────────
+    // Moodle_backup.xml builder.
 
     /**
      * Build the moodle_backup.xml descriptor.
@@ -1306,9 +1296,7 @@ class mbz_generator {
         return $doc->saveXML();
     }
 
-    // ─────────────────────────────────────────────────────
-    // Version helpers
-    // ─────────────────────────────────────────────────────
+    // Version helpers.
 
     /**
      * Get the backup version number to use, matching the Moodle installation.
@@ -1332,7 +1320,7 @@ class mbz_generator {
         return '4.5';
     }
 
-    // Main generation method
+    // Main generation method.
 
     /**
      * Generate the MBZ backup directory structure from CSV rows.
@@ -1363,7 +1351,7 @@ class mbz_generator {
         $coursegradeitemid = 100;
 
         // Collect sections from CSV.
-        $sections = []; // sec_num => name (ordered).
+        $sections = []; // Sec_num => name (ordered).
         foreach ($rows as $row) {
             $secnum = (int)trim($row['section_id']);
             if (!isset($sections[$secnum])) {
@@ -1372,7 +1360,7 @@ class mbz_generator {
         }
 
         // Assign section IDs.
-        $sectionids = []; // sec_num => internal section_id.
+        $sectionids = []; // Sec_num => internal section_id.
         foreach ($sections as $secnum => $secname) {
             $sectionids[$secnum] = $this->sectionidcounter++;
         }
