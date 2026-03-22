@@ -1362,20 +1362,22 @@ class mbz_generator {
         $tempdir = 'csvtocourse_' . $this->now . '_' . substr(md5(random_string(10)), 0, 8);
         $temppath = make_backup_temp_directory($tempdir);
 
+        global $CFG;
+
         // Root files.
         foreach ($rootfiles as $fname => $content) {
             file_put_contents($temppath . '/' . $fname, $content);
         }
 
         // Course files.
-        mkdir($temppath . '/course', 0777, true);
+        mkdir($temppath . '/course', $CFG->directorypermissions, true);
         foreach ($coursefiles as $fpath => $content) {
             file_put_contents($temppath . '/' . $fpath, $content);
         }
 
         // Section files.
         foreach ($sectionfiles as $dirname => $filelist) {
-            mkdir($temppath . '/' . $dirname, 0777, true);
+            mkdir($temppath . '/' . $dirname, $CFG->directorypermissions, true);
             foreach ($filelist as [$fname, $content]) {
                 file_put_contents($temppath . '/' . $dirname . '/' . $fname, $content);
             }
@@ -1383,7 +1385,7 @@ class mbz_generator {
 
         // Activity files.
         foreach ($activityfiles as $dirname => $filelist) {
-            mkdir($temppath . '/' . $dirname, 0777, true);
+            mkdir($temppath . '/' . $dirname, $CFG->directorypermissions, true);
             foreach ($filelist as [$fname, $content]) {
                 file_put_contents($temppath . '/' . $dirname . '/' . $fname, $content);
             }

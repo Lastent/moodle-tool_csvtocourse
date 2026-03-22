@@ -25,6 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'CSV a Curso';
+$string['csvtocourse:use'] = 'Usar CSV a Curso';
 $string['csvtocourse'] = 'CSV a Curso';
 $string['csvfile'] = 'Archivo CSV';
 $string['csvfile_help'] = 'Sube un archivo CSV con la estructura del curso. El archivo debe tener las siguientes columnas: section_id, section_name, activity_type, activity_name, content_text, source_url_path';
