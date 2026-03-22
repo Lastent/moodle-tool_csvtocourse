@@ -32,7 +32,6 @@ require_once($CFG->libdir . '/formslib.php');
  * Form to upload a CSV file and create a course.
  */
 class upload_form extends \moodleform {
-
     /**
      * Form definition.
      */

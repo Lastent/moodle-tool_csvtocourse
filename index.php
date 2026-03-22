@@ -38,7 +38,7 @@ if ($form->is_cancelled()) {
 }
 
 if ($data = $form->get_data()) {
-    // ── Parse the uploaded CSV ──────────────────────────
+    // Parse the uploaded CSV.
     $csvfile = $form->save_temp_file('csvfile');
     if (empty($csvfile)) {
         throw new moodle_exception('invalidcsv', 'tool_csvtocourse');
@@ -54,7 +54,7 @@ if ($data = $form->get_data()) {
         throw new moodle_exception('emptycsv', 'tool_csvtocourse');
     }
 
-    // ── Generate MBZ structure in temp directory ────────
+    // Generate MBZ structure in temp directory.
     $generator = new \tool_csvtocourse\mbz_generator();
     $tempdir = $generator->generate(
         $rows,
@@ -62,7 +62,7 @@ if ($data = $form->get_data()) {
         $data->courseshortname
     );
 
-    // ── Restore into a new course ───────────────────────
+    // Restore into a new course.
     try {
         $categoryid = (int)$data->category;
         $newcourseid = \restore_dbops::create_new_course('', '', $categoryid);
@@ -89,7 +89,7 @@ if ($data = $form->get_data()) {
         throw new moodle_exception('restorefailed', 'tool_csvtocourse', '', null, $e->getMessage());
     }
 
-    // ── Clean up and redirect ───────────────────────────
+    // Clean up and redirect.
     fulldelete($CFG->tempdir . '/backup/' . $tempdir);
 
     redirect(
@@ -100,17 +100,19 @@ if ($data = $form->get_data()) {
     );
 }
 
-// ── Display the form ────────────────────────────────────
+// Display the form.
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('pluginname', 'tool_csvtocourse'));
-echo \html_writer::tag('div',
+echo \html_writer::tag(
+    'div',
     get_string('csvformat_help', 'tool_csvtocourse'),
     ['class' => 'alert alert-info']
 );
 
 // Download sample CSV button.
 $sampleurl = new moodle_url('/admin/tool/csvtocourse/download_sample.php', ['sesskey' => sesskey()]);
-echo \html_writer::tag('div',
+echo \html_writer::tag(
+    'div',
     $OUTPUT->single_button($sampleurl, get_string('downloadsample', 'tool_csvtocourse'), 'get'),
     ['class' => 'mb-3']
 );

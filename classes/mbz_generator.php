@@ -30,13 +30,10 @@
 
 namespace tool_csvtocourse;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Generates MBZ backup structure from parsed CSV rows.
  */
 class mbz_generator {
-
     /** @var string Moodle backup null placeholder. */
     const NULL_VALUE = '$@NULL@$';
 
@@ -107,8 +104,10 @@ class mbz_generator {
             return (string)$ts;
         }
 
-        debugging("parse_date: Invalid date format '{$s}' – expected YYYY-MM-DD or YYYY-MM-DD HH:MM",
-            DEBUG_DEVELOPER);
+        debugging(
+            "parse_date: Invalid date format '{$s}' – expected YYYY-MM-DD or YYYY-MM-DD HH:MM",
+            DEBUG_DEVELOPER
+        );
         return '0';
     }
 
@@ -229,9 +228,20 @@ class mbz_generator {
 
     /**
      * Build label activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Label name.
+     * @param string $intro Label intro.
+     * @return string
      */
-    private function build_label_xml(int $actid, int $moduleid, int $ctxid,
-                                     string $name, string $intro): string {
+    private function build_label_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro
+    ): string {
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
             'modulename' => 'label', 'contextid' => $ctxid,
@@ -246,9 +256,22 @@ class mbz_generator {
 
     /**
      * Build URL activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name URL name.
+     * @param string $intro URL intro.
+     * @param string $url The URL.
+     * @return string
      */
-    private function build_url_xml(int $actid, int $moduleid, int $ctxid,
-                                   string $name, string $intro, string $url): string {
+    private function build_url_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro,
+        string $url
+    ): string {
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
             'modulename' => 'url', 'contextid' => $ctxid,
@@ -267,9 +290,20 @@ class mbz_generator {
 
     /**
      * Build resource (file) activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Resource name.
+     * @param string $intro Resource intro.
+     * @return string
      */
-    private function build_resource_xml(int $actid, int $moduleid, int $ctxid,
-                                        string $name, string $intro): string {
+    private function build_resource_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro
+    ): string {
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
             'modulename' => 'resource', 'contextid' => $ctxid,
@@ -291,9 +325,20 @@ class mbz_generator {
 
     /**
      * Build page activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Page name.
+     * @param string $intro Page intro and content.
+     * @return string
      */
-    private function build_page_xml(int $actid, int $moduleid, int $ctxid,
-                                    string $name, string $intro): string {
+    private function build_page_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro
+    ): string {
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
             'modulename' => 'page', 'contextid' => $ctxid,
@@ -316,11 +361,26 @@ class mbz_generator {
 
     /**
      * Build forum activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Forum name.
+     * @param string $intro Forum intro.
+     * @param string $datestart Start date timestamp.
+     * @param string $dateend End date timestamp.
+     * @param string $datecutoff Cutoff date timestamp.
+     * @return string
      */
-    private function build_forum_xml(int $actid, int $moduleid, int $ctxid,
-                                     string $name, string $intro,
-                                     string $datestart = '0', string $dateend = '0',
-                                     string $datecutoff = '0'): string {
+    private function build_forum_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro,
+        string $datestart = '0',
+        string $dateend = '0',
+        string $datecutoff = '0'
+    ): string {
         $effectivecutoff = ($datecutoff !== '0') ? $datecutoff : $dateend;
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
@@ -364,11 +424,26 @@ class mbz_generator {
 
     /**
      * Build assign activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Assign name.
+     * @param string $intro Assign intro.
+     * @param string $datestart Start date timestamp.
+     * @param string $dateend End date timestamp.
+     * @param string $datecutoff Cutoff date timestamp.
+     * @return string
      */
-    private function build_assign_xml(int $actid, int $moduleid, int $ctxid,
-                                      string $name, string $intro,
-                                      string $datestart = '0', string $dateend = '0',
-                                      string $datecutoff = '0'): string {
+    private function build_assign_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro,
+        string $datestart = '0',
+        string $dateend = '0',
+        string $datecutoff = '0'
+    ): string {
         // Resolve dates: use provided values or fall back to defaults.
         $allowfrom = ($datestart !== '0') ? $datestart : (string)$this->now;
         $duets = ($dateend !== '0') ? $dateend : (string)($this->now + 7 * 86400);
@@ -449,10 +524,24 @@ class mbz_generator {
 
     /**
      * Build quiz activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Quiz name.
+     * @param string $intro Quiz intro.
+     * @param string $datestart Start date timestamp.
+     * @param string $dateend End date timestamp.
+     * @return string
      */
-    private function build_quiz_xml(int $actid, int $moduleid, int $ctxid,
-                                    string $name, string $intro,
-                                    string $datestart = '0', string $dateend = '0'): string {
+    private function build_quiz_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro,
+        string $datestart = '0',
+        string $dateend = '0'
+    ): string {
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
             'modulename' => 'quiz', 'contextid' => $ctxid,
@@ -508,10 +597,24 @@ class mbz_generator {
 
     /**
      * Build feedback activity XML.
+     * @param int $actid Activity ID.
+     * @param int $moduleid Module ID.
+     * @param int $ctxid Context ID.
+     * @param string $name Feedback name.
+     * @param string $intro Feedback intro.
+     * @param string $datestart Start date timestamp.
+     * @param string $dateend End date timestamp.
+     * @return string
      */
-    private function build_feedback_xml(int $actid, int $moduleid, int $ctxid,
-                                        string $name, string $intro,
-                                        string $datestart = '0', string $dateend = '0'): string {
+    private function build_feedback_xml(
+        int $actid,
+        int $moduleid,
+        int $ctxid,
+        string $name,
+        string $intro,
+        string $datestart = '0',
+        string $dateend = '0'
+    ): string {
         [$doc, $root] = $this->create_doc('activity', [
             'id' => $actid, 'moduleid' => $moduleid,
             'modulename' => 'feedback', 'contextid' => $ctxid,
@@ -543,9 +646,18 @@ class mbz_generator {
 
     /**
      * Build module.xml for an activity.
+     * @param int $moduleid Module ID.
+     * @param string $modname Module name.
+     * @param int $sectionid Section ID.
+     * @param int $sectionnumber Section number.
+     * @return string
      */
-    private function build_module_xml(int $moduleid, string $modname,
-                                      int $sectionid, int $sectionnumber): string {
+    private function build_module_xml(
+        int $moduleid,
+        string $modname,
+        int $sectionid,
+        int $sectionnumber
+    ): string {
         [$doc, $root] = $this->create_doc('module', [
             'id' => $moduleid, 'version' => (string)$this->get_backup_version(),
         ]);
@@ -590,9 +702,18 @@ class mbz_generator {
 
     /**
      * Grades XML for activities with grading (assign, quiz).
+     * @param int $giid Grade item ID.
+     * @param int $gradecatid Grade category ID.
+     * @param int $actid Activity ID.
+     * @param string $name Grade item name.
+     * @return string
      */
-    private function assign_grades_xml(int $giid, int $gradecatid,
-                                       int $actid, string $name): string {
+    private function assign_grades_xml(
+        int $giid,
+        int $gradecatid,
+        int $actid,
+        string $name
+    ): string {
         [$doc, $root] = $this->create_doc('activity_gradebook');
         $gi = $this->se($root, 'grade_items');
         $item = $this->se($gi, 'grade_item', null, ['id' => $giid]);
@@ -659,6 +780,8 @@ class mbz_generator {
 
     /**
      * Inforef XML with grade item reference.
+     * @param int $giid Grade item ID.
+     * @return string
      */
     private function gradeitem_inforef_xml(int $giid): string {
         [$doc, $root] = $this->create_doc('inforef');
@@ -670,6 +793,8 @@ class mbz_generator {
 
     /**
      * Grading XML for assign activities.
+     * @param int $actid Activity ID.
+     * @return string
      */
     private function assign_grading_xml(int $actid): string {
         [$doc, $root] = $this->create_doc('areas');
@@ -686,9 +811,18 @@ class mbz_generator {
 
     /**
      * Build course/course.xml.
+     * @param int $courseid Course ID.
+     * @param int $ctxid Context ID.
+     * @param string $fullname Course full name.
+     * @param string $shortname Course short name.
+     * @return string
      */
-    private function build_course_xml(int $courseid, int $ctxid,
-                                      string $fullname, string $shortname): string {
+    private function build_course_xml(
+        int $courseid,
+        int $ctxid,
+        string $fullname,
+        string $shortname
+    ): string {
         $end = (string)($this->now + 365 * 86400);
         [$doc, $root] = $this->create_doc('course', [
             'id' => $courseid, 'contextid' => $ctxid,
@@ -764,10 +898,23 @@ class mbz_generator {
 
     /**
      * Helper to add an enrolment method element.
+     * @param \DOMElement $parent The parent DOM element.
+     * @param int $eid Enrolment ID.
+     * @param string $method Enrolment method name.
+     * @param int $status Enrolment status.
+     * @param int $roleid Role ID.
+     * @param array $extra Extra attributes.
+     * @param string|null $password Optional enrolment password.
      */
-    private function add_enrol(\DOMElement $parent, int $eid, string $method,
-                               int $status, int $roleid, array $extra = [],
-                               ?string $password = null): void {
+    private function add_enrol(
+        \DOMElement $parent,
+        int $eid,
+        string $method,
+        int $status,
+        int $roleid,
+        array $extra = [],
+        ?string $password = null
+    ): void {
         $e = $this->se($parent, 'enrol', null, ['id' => $eid]);
         $this->se($e, 'enrol', $method);
         $this->se($e, 'status', (string)$status);
@@ -910,8 +1057,14 @@ class mbz_generator {
 
     /**
      * Build gradebook.xml.
+     * @param int $gradecatid Grade category ID.
+     * @param int $giid Grade item ID.
+     * @return string
      */
-    private function build_gradebook_xml(int $gradecatid, int $giid): string {
+    private function build_gradebook_xml(
+        int $gradecatid,
+        int $giid
+    ): string {
         [$doc, $root] = $this->create_doc('gradebook');
         $this->se($root, 'attributes');
 
@@ -975,9 +1128,18 @@ class mbz_generator {
 
     /**
      * Build section XML.
+     * @param int $sectionid Section ID.
+     * @param int $sectionnumber Section sequence number.
+     * @param string $name Section name.
+     * @param array $sequenceids Array of module IDs in this section.
+     * @return string
      */
-    private function build_section_xml(int $sectionid, int $sectionnumber,
-                                       string $name, array $sequenceids): string {
+    private function build_section_xml(
+        int $sectionid,
+        int $sectionnumber,
+        string $name,
+        array $sequenceids
+    ): string {
         [$doc, $root] = $this->create_doc('section', ['id' => $sectionid]);
         $this->se($root, 'number', (string)$sectionnumber);
         $this->se($root, 'name', $name);
@@ -1006,11 +1168,22 @@ class mbz_generator {
 
     /**
      * Build the moodle_backup.xml descriptor.
+     * @param int $courseid Course ID.
+     * @param int $ctxid Context ID.
+     * @param string $fullname Course full name.
+     * @param string $shortname Course short name.
+     * @param array $activitiesinfo Array of activities metadata.
+     * @param array $sectionsinfo Array of sections metadata.
+     * @return string
      */
-    private function build_moodle_backup_xml(int $courseid, int $ctxid,
-                                              string $fullname, string $shortname,
-                                              array $activitiesinfo,
-                                              array $sectionsinfo): string {
+    private function build_moodle_backup_xml(
+        int $courseid,
+        int $ctxid,
+        string $fullname,
+        string $shortname,
+        array $activitiesinfo,
+        array $sectionsinfo
+    ): string {
         global $CFG;
 
         $backupversion = $this->get_backup_version();
@@ -1034,8 +1207,7 @@ class mbz_generator {
         $this->se($info, 'include_files', '0');
         $this->se($info, 'include_file_references_to_external_content', '0');
         $this->se($info, 'original_wwwroot', $CFG->wwwroot ?? 'https://localhost');
-        $this->se($info, 'original_site_identifier_hash',
-            md5((string)$this->now));
+        $this->se($info, 'original_site_identifier_hash', md5((string)$this->now));
         $this->se($info, 'original_course_id', (string)$courseid);
         $this->se($info, 'original_course_format', 'topics');
         $this->se($info, 'original_course_fullname', $fullname);
@@ -1164,9 +1336,7 @@ class mbz_generator {
         return '4.5';
     }
 
-    // ─────────────────────────────────────────────────────
     // Main generation method
-    // ─────────────────────────────────────────────────────
 
     /**
      * Generate the MBZ backup directory structure from CSV rows.
@@ -1196,7 +1366,7 @@ class mbz_generator {
         $gradecatid = 1;
         $coursegradeitemid = 100;
 
-        // ── Collect sections from CSV ──────────────────────
+        // Collect sections from CSV.
         $sections = []; // sec_num => name (ordered).
         foreach ($rows as $row) {
             $secnum = (int)trim($row['section_id']);
@@ -1205,13 +1375,13 @@ class mbz_generator {
             }
         }
 
-        // ── Assign section IDs ─────────────────────────────
+        // Assign section IDs.
         $sectionids = []; // sec_num => internal section_id.
         foreach ($sections as $secnum => $secname) {
             $sectionids[$secnum] = $this->sectionidcounter++;
         }
 
-        // ── Build activities ───────────────────────────────
+        // Build activities.
         $sectionsequences = array_fill_keys(array_keys($sections), []);
         $activitiesinfo = [];
         $activityfiles = [];
@@ -1259,20 +1429,50 @@ class mbz_generator {
                     $actxml = $this->build_page_xml($actid, $moduleid, $ctxid, $actname, $content);
                     break;
                 case 'forum':
-                    $actxml = $this->build_forum_xml($actid, $moduleid, $ctxid, $actname, $content,
-                        $datestart, $dateend, $datecutoff);
+                    $actxml = $this->build_forum_xml(
+                        $actid,
+                        $moduleid,
+                        $ctxid,
+                        $actname,
+                        $content,
+                        $datestart,
+                        $dateend,
+                        $datecutoff
+                    );
                     break;
                 case 'assign':
-                    $actxml = $this->build_assign_xml($actid, $moduleid, $ctxid, $actname, $content,
-                        $datestart, $dateend, $datecutoff);
+                    $actxml = $this->build_assign_xml(
+                        $actid,
+                        $moduleid,
+                        $ctxid,
+                        $actname,
+                        $content,
+                        $datestart,
+                        $dateend,
+                        $datecutoff
+                    );
                     break;
                 case 'quiz':
-                    $actxml = $this->build_quiz_xml($actid, $moduleid, $ctxid, $actname, $content,
-                        $datestart, $dateend);
+                    $actxml = $this->build_quiz_xml(
+                        $actid,
+                        $moduleid,
+                        $ctxid,
+                        $actname,
+                        $content,
+                        $datestart,
+                        $dateend
+                    );
                     break;
                 case 'feedback':
-                    $actxml = $this->build_feedback_xml($actid, $moduleid, $ctxid, $actname, $content,
-                        $datestart, $dateend);
+                    $actxml = $this->build_feedback_xml(
+                        $actid,
+                        $moduleid,
+                        $ctxid,
+                        $actname,
+                        $content,
+                        $datestart,
+                        $dateend
+                    );
                     break;
             }
 
@@ -1313,7 +1513,7 @@ class mbz_generator {
             ];
         }
 
-        // ── Build sections ─────────────────────────────────
+        // Build sections.
         $sectionsinfo = [];
         $sectionfiles = [];
         foreach ($sections as $secnum => $secname) {
@@ -1332,20 +1532,29 @@ class mbz_generator {
             ];
         }
 
-        // ── Build course-level files ───────────────────────
+        // Build course-level files.
         $coursefiles = [
-            'course/course.xml' => $this->build_course_xml($courseid, $coursectx, $fullname, $shortname),
+            'course/course.xml' => $this->build_course_xml(
+                $courseid,
+                $coursectx,
+                $fullname,
+                $shortname
+            ),
             'course/enrolments.xml' => $this->build_enrolments_xml(),
             'course/roles.xml' => $this->build_course_roles_xml(),
             'course/inforef.xml' => $this->build_course_inforef_xml(),
             'course/completiondefaults.xml' => $this->build_completiondefaults_xml(),
         ];
 
-        // ── Build root-level files ─────────────────────────
+        // Build root-level files.
         $rootfiles = [
             'moodle_backup.xml' => $this->build_moodle_backup_xml(
-                $courseid, $coursectx, $fullname, $shortname,
-                $activitiesinfo, $sectionsinfo
+                $courseid,
+                $coursectx,
+                $fullname,
+                $shortname,
+                $activitiesinfo,
+                $sectionsinfo
             ),
             'files.xml' => $this->build_files_xml(),
             'completion.xml' => $this->build_completion_xml(),
@@ -1358,7 +1567,7 @@ class mbz_generator {
             'roles.xml' => $this->build_roles_definition_xml(),
         ];
 
-        // ── Write all files to temp backup directory ───────
+        // Write all files to temp backup directory.
         $tempdir = 'csvtocourse_' . $this->now . '_' . substr(md5(random_string(10)), 0, 8);
         $temppath = make_backup_temp_directory($tempdir);
 
