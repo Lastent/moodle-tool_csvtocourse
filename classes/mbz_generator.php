@@ -61,9 +61,7 @@ class mbz_generator {
     /** @var int Plugin config ID counter. */
     private int $pluginidcounter;
 
-    // ─────────────────────────────────────────────────────
-    // Date helper
-    // ─────────────────────────────────────────────────────
+    // Date helper.
 
     /**
      * Parse a date string into a Unix-timestamp string for Moodle XML.
@@ -125,9 +123,7 @@ class mbz_generator {
         return ($errors['warning_count'] > 0 || $errors['error_count'] > 0);
     }
 
-    // ─────────────────────────────────────────────────────
-    // CSV parsing
-    // ─────────────────────────────────────────────────────
+    // CSV parsing.
 
     /**
      * Parse a CSV file into an array of associative rows.
@@ -178,9 +174,7 @@ class mbz_generator {
         return $rows;
     }
 
-    // ─────────────────────────────────────────────────────
-    // XML helpers
-    // ─────────────────────────────────────────────────────
+    // XML helpers.
 
     /**
      * Create a new DOMDocument with a root element.
@@ -222,9 +216,7 @@ class mbz_generator {
         return $el;
     }
 
-    // ─────────────────────────────────────────────────────
-    // Activity XML builders
-    // ─────────────────────────────────────────────────────
+    // Activity XML builders.
 
     /**
      * Build label activity XML.
@@ -339,10 +331,15 @@ class mbz_generator {
         string $name,
         string $intro
     ): string {
-        [$doc, $root] = $this->create_doc('activity', [
-            'id' => $actid, 'moduleid' => $moduleid,
-            'modulename' => 'page', 'contextid' => $ctxid,
-        ]);
+        [$doc, $root] = $this->create_doc(
+            'activity',
+            [
+                'id' => $actid,
+                'moduleid' => $moduleid,
+                'modulename' => 'page',
+                'contextid' => $ctxid,
+            ]
+        );
         $p = $this->se($root, 'page', null, ['id' => $actid]);
         $this->se($p, 'name', $name);
         $this->se($p, 'intro', $intro ?: '');
@@ -352,8 +349,7 @@ class mbz_generator {
         $this->se($p, 'legacyfiles', '0');
         $this->se($p, 'legacyfileslast', self::NULL_VALUE);
         $this->se($p, 'display', '5');
-        $this->se($p, 'displayoptions',
-            'a:2:{s:10:"printintro";s:1:"0";s:17:"printlastmodified";s:1:"1";}');
+        $this->se($p, 'displayoptions', 'a:2:{s:10:"printintro";s:1:"0";s:17:"printlastmodified";s:1:"1";}');
         $this->se($p, 'revision', '1');
         $this->se($p, 'timemodified', (string)$this->now);
         return $doc->saveXML();
